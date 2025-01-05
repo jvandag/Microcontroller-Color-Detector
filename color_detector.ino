@@ -7,7 +7,7 @@
 #include "screen_bitmaps.h"
 
 // User Input
-int selectPos    = 1024 * (analogRead(POTENTIOMETER_PIN)) / 4095;
+int selectPos    = 1024 * (analogRead(POTENTIOMETER_PIN)) / ANALOG_RES;
 bool btn1Val     = true; // false when pressed (pull down btn)
 bool btn2Val     = true; // false when pressed (pull down btn)
 bool btn1LastVal = true; 
@@ -458,7 +458,7 @@ String getProcessingString(int num_frames) {
 }
 
 int getOffset(int &selectPos) {
-  int val = pot_val * SEL_MAP_WIDTH / 4095;
+  int val = pot_val * SEL_MAP_WIDTH / ANALOG_RES;
   scroll_start = scroll_end = false;
   scrolling = true;
   if (val > 7 * SCREEN_WIDTH) {
@@ -706,7 +706,7 @@ void getDataFromCard() {
     while (1) {
       value = myFile.readStringUntil('.');
       
-      // a value of 4095 means the sensor is being maxed out
+      // a value of ANALOG_RES means the sensor is being maxed out
       //Serial.println(value);
       if (value == NULL || value == (String)'\n' || counter == SAMPLES_PER_GROUP) {
         sampleCounts[groupNumber] = counter;
